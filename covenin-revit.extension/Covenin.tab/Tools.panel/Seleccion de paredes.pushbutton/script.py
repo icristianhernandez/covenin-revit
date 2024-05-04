@@ -12,9 +12,11 @@ class SelectionFilter_Walls(ISelectionFilter):
         
 
 Wall_filter = SelectionFilter_Walls()
-ref_picked_walls = uidoc.Selection.PickObjects(ObjectType.Element,Wall_filter)
-picked_walls  = [doc.GetElement(ref) for ref in ref_picked_walls]
-
+try:
+    ref_picked_walls = uidoc.Selection.PickObjects(ObjectType.Element,Wall_filter)
+    picked_walls  = [doc.GetElement(ref) for ref in ref_picked_walls]
+except:
+    print("Ninguna pared fue seleccionada")
 
 
 
