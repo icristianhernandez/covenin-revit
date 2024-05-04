@@ -5,4 +5,4 @@ Resources:
 - [COVENIN In Revit (github)](https://github.com/icristianhernandez/covenin-revit)  
 - [Revit API Docs 2022](https://www.revitapidocs.com/2022/)  
 - [Pyrevit Labs](https://pyrevitlabs.notion.site/)  
-- [Git, Github and Github Desktop explanation](https://docs.github.com/en/desktop/overview/getting-started-with-github-desktop)
+- [Git, Github and Github Desktop (explanation)](https://docs.github.com/en/desktop/overview/getting-started-with-github-desktop)
