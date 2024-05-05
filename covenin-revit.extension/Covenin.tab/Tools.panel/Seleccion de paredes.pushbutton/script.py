@@ -6,18 +6,14 @@ uidoc = __revit__.ActiveUIDocument
 
 
 class SelectionFilter_Walls(ISelectionFilter):
-    def AllowElement(self,element):
+    def AllowElement(self, element):
         if type(element) == Wall:
             return True
-        
+
 
 Wall_filter = SelectionFilter_Walls()
 try:
-    ref_picked_walls = uidoc.Selection.PickObjects(ObjectType.Element,Wall_filter)
-    picked_walls  = [doc.GetElement(ref) for ref in ref_picked_walls]
+    ref_picked_walls = uidoc.Selection.PickObjects(ObjectType.Element, Wall_filter)
+    picked_walls = [doc.GetElement(ref) for ref in ref_picked_walls]
 except:
     SystemExit
-
-
-
-
