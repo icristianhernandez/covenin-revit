@@ -39,11 +39,12 @@ try:
     picked_walls = [doc.GetElement(ref) for ref in ref_picked_walls]
     for wall in picked_walls:
         walls.append({
-            "Width": wall.Width,
-            "Length": get_wall_length(doc, wall)
+            "Width": wall.Width * 0.3048,  # Convert to m
+            "Length": get_wall_length(doc, wall) * 0.3048,  # Convert to m
         })
 
     for wall in walls:
-        print("Width: {} Length: {}".format(wall["Width"], wall["Length"]))
+        print("Width: {} Length: {}".format(
+            wall["Width"], wall["Length"]))
 except:
     SystemExit
