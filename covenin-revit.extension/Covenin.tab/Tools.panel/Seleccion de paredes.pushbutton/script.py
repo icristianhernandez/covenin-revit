@@ -63,7 +63,16 @@ try:
 
         if layer_info:
             for material_name, data in layer_info.items():
-                if "Brick" in material_name:
+                search_strings = [
+                    "brick",
+                    "Brick",
+                    "BRICK",
+                    "ladrillo",
+                    "Ladrillo",
+                    "LADRILLO",
+                ]
+
+                if any(string in material_name for string in search_strings):
                     bricks_layer_volume = data["width"] * area * 0.3048  # Convert to m3
 
         """
@@ -96,3 +105,9 @@ try:
 
 except:
     SystemExit
+
+print(selected_walls_data)
+print("___ \n")
+for wall_data in selected_walls_data:
+    for key, value in wall_data.items():
+        print(key, value)
