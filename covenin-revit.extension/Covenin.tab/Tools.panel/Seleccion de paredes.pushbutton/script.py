@@ -1,5 +1,6 @@
 from Autodesk.Revit.DB import *
 from Autodesk.Revit.UI.Selection import *
+from Autodesk.Revit.UI import TaskDialog
 import math
 
 doc = __revit__.ActiveUIDocument.Document
@@ -109,6 +110,21 @@ try:
                 ),
             }
         )
+    report_main_text = ""
+    bricks_total = 0
+    for wall_data in selected_walls_data:
+        bricks_total += int(wall_data["necesary_bricks"])
+
+    if bricks_total == 0:
+        report_main_text = "No se encontraron ladrillos en las paredes seleccionadas. Elija paredes soportadas por el programa (materiales soportados: ladrillo)."
+    else:
+        report_main_text = "Se necesitan " + str(bricks_total) + " ladrillos para construir las paredes seleccionadas."
+
+    user_report = TaskDialog("COVENIN")
+    user_report.TitleAutoPrefix = False
+    user_report.MainInstruction = "COVENIN 2000 - Calculo de Ladrillos"
+    user_report.MainContent = report_main_text 
+    user_report.Show()
 
 except:
     SystemExit
