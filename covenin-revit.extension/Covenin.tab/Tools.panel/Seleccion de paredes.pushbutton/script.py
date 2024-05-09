@@ -8,6 +8,10 @@ uidoc = __revit__.ActiveUIDocument
 selected_walls_data = []
 volume_COVENIN_bricks = 0.00211  
 
+def ft_to_m (feet_number):
+    conversation_value = 0.3048
+    return feet_number * conversation_value
+
 def get_wall_layer_info(wall):
     """
     This function retrieves information about the name and width of each layer in a wall.
@@ -49,9 +53,11 @@ try:
     bricks_layer_volume = 0
 
     for wall in picked_walls:
-        width = wall.Width * 0.3048  
+        extra_bricks_fix = 1.1
+
+        width = ft_to_m( wall.Width )  
         length = (
-            wall.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH).AsDouble() * 0.3048
+            ft_to_m( wall.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH).AsDouble() )
         )  
         area = (
             wall.get_Parameter(BuiltInParameter.HOST_AREA_COMPUTED).AsDouble()
@@ -98,8 +104,9 @@ try:
                     format(bricks_layer_volume, ".3f") if bricks_layer_volume > 0 else 0
                 ),
                 "necesary_bricks": int(
-                    math.ceil(bricks_layer_volume / volume_COVENIN_bricks * 1.1)
-                ),  # 10% extra bricks
+                    
+                    math.ceil(bricks_layer_volume / volume_COVENIN_bricks * extra_bricks_fix)
+                ),
             }
         )
 
