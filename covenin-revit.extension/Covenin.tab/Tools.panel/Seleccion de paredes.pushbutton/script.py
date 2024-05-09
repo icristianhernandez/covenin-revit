@@ -112,9 +112,3 @@ try:
 
 except:
     SystemExit
-
-print(selected_walls_data)
-print("___ \n")
-for wall_data in selected_walls_data:
-    for key, value in wall_data.items():
-        print(key, value)
