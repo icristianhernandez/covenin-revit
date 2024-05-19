@@ -31,13 +31,13 @@ def create_schedule(doc, category, schedule_fields):
     Returns:
         ViewSchedule: Schedule with the desired fields
     """
-    elements_id_of_category = ElementId(category)
+    all_id_of_category_elements = ElementId(category)
 
-    schedule = ViewSchedule.CreateSchedule(doc, elements_id_of_category)
+    schedule = ViewSchedule.CreateSchedule(doc, all_id_of_category_elements)
     schedule_def = schedule.Definition
     schedule_parameters_list = schedule_def.GetSchedulableFields()
 
-    # add only the desired fields to the schedule
+    # add desired fields to the schedule
     for schedule_parameter in schedule_parameters_list:
         for desired_parameter in schedule_fields:
             if schedule_parameter.ParameterId == ElementId(desired_parameter):
