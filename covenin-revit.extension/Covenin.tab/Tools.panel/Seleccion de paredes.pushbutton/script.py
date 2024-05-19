@@ -30,6 +30,10 @@ def create_schedule(doc, category, schedule_fields):
 
     Returns:
         ViewSchedule: Schedule with the desired fields
+
+    Examples:
+        1. create_schedule(doc, BuiltInCategory.OST_Walls, [BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM, BuiltInParameter.WALL_BASE_CONSTRAINT])
+        2. the schedule need to be declared in a transaction
     """
     all_id_of_category_elements = ElementId(category)
 
