@@ -20,6 +20,17 @@ element_categorie = BuiltInCategory.OST_Walls
 
 
 def create_schedule(doc, category, schedule_fields):
+    """
+    Create a schedule of all the elements of a given category with fields of the desired element parameters
+
+    Args:
+        doc (Document): Revit Document
+        category (BuiltInCategory): Category of the elements to be scheduled
+        schedule_fields (list): List of BuiltInParameter to be included in the schedule
+
+    Returns:
+        ViewSchedule: Schedule with the desired fields
+    """
     elements_id_of_category = ElementId(category)
 
     schedule = ViewSchedule.CreateSchedule(doc, elements_id_of_category)
