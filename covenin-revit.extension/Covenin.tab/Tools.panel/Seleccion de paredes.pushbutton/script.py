@@ -24,16 +24,22 @@ def create_schedule(doc, category, schedule_fields):
     Create a schedule of all the elements of a given category with fields of the desired element parameters
 
     Args:
-        doc (Document): Revit Document
-        category (BuiltInCategory): Category of the elements to be scheduled
-        schedule_fields (list): List of BuiltInParameter to be included in the schedule
+        doc (Document): The Revit document in which the schedule will be created.
+        category (BuiltInCategory): The category of the elements to be scheduled.
+        schedule_fields (list): A list of BuiltInParameter values representing the element parameters to be included in the schedule.
 
     Returns:
-        ViewSchedule: Schedule with the desired fields
+        ViewSchedule: The created schedule with the desired fields.
 
     Examples:
         1. create_schedule(doc, BuiltInCategory.OST_Walls, [BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM, BuiltInParameter.WALL_BASE_CONSTRAINT])
-        2. the schedule need to be declared in a transaction
+           This example creates a schedule for walls with fields for element family and type parameter and wall base constraint parameter.
+
+        2. create_schedule(doc, BuiltInCategory.OST_Doors, [BuiltInParameter.DOOR_NUMBER, BuiltInParameter.DOOR_WIDTH])
+           This example creates a schedule for doors with fields for door number and door width parameters.
+
+    Note:
+        The schedule needs to be declared within a transaction in order to be properly created and modified.
     """
     all_id_of_category_elements = ElementId(category)
 
@@ -42,10 +48,10 @@ def create_schedule(doc, category, schedule_fields):
     schedule_parameters_list = schedule_def.GetSchedulableFields()
 
     # add desired fields to the schedule
-    for schedule_parameter in schedule_parameters_list:
+    for schedule_parameter_posibilities in schedule_parameters_list:
         for desired_parameter in schedule_fields:
-            if schedule_parameter.ParameterId == ElementId(desired_parameter):
-                schedule_def.AddField(schedule_parameter)
+            if schedule_parameter_posibilities.ParameterId == ElementId(desired_parameter):
+                schedule_def.AddField(schedule_parameter_posibilities)
 
     return schedule
 
