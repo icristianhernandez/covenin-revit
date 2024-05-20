@@ -7,18 +7,6 @@ doc = __revit__.ActiveUIDocument.Document
 uidoc = __revit__.ActiveUIDocument
 app = __revit__.Application
 
-# desired_schedule_parameters = [
-#     BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM,
-#     BuiltInParameter.HOST_AREA_COMPUTED,
-#     BuiltInParameter.HOST_VOLUME_COMPUTED,
-#     BuiltInParameter.CURVE_ELEM_LENGTH,
-#     BuiltInParameter.WALL_BASE_CONSTRAINT,
-#     BuiltInParameter.WALL_USER_HEIGHT_PARAM,
-# ]
-#
-# element_categorie = BuiltInCategory.OST_Walls
-#
-
 
 def create_schedule(doc, category, schedule_fields):
     """
@@ -40,7 +28,7 @@ def create_schedule(doc, category, schedule_fields):
            This example creates a schedule for doors with fields for door number and door width parameters.
 
     Note:
-        The schedule needs to be declared within a transaction in order to be properly created and modified.
+        The schedule needs to be declared within a transaction in order to be properly instantiated in the Revit document.
     """
 
     all_id_of_category_elements = ElementId(category)
@@ -49,7 +37,7 @@ def create_schedule(doc, category, schedule_fields):
     schedule_def = schedule.Definition
     schedule_parameters_list = schedule_def.GetSchedulableFields()
 
-    # add desired fields to the schedule
+    # add only the desired fields to the schedule
     for schedule_parameter_posibilities in schedule_parameters_list:
         for desired_parameter in schedule_fields:
             if schedule_parameter_posibilities.ParameterId == ElementId(
@@ -60,18 +48,7 @@ def create_schedule(doc, category, schedule_fields):
     return schedule
 
 
-# with Transaction(doc, "Schedule") as schedule_transaction:
-#     schedule_transaction.Start()
-#
-#     schedule = create_schedule(doc, element_categorie, desired_schedule_parameters)
-#
-#     schedule_transaction.Commit()
-#
-# uidoc.ActiveView = schedule
-
-
 def main():
-    # Reimplement all code execution here
     element_categorie = BuiltInCategory.OST_Walls
     desired_schedule_parameters = [
         BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM,
@@ -92,4 +69,5 @@ def main():
     uidoc.ActiveView = schedule
 
 
-main()
+if __name__ == "__main__":
+    main()
