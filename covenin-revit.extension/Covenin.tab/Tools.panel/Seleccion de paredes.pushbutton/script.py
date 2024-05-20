@@ -1,10 +1,11 @@
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../../../utils/'))
+
 from Autodesk.Revit.DB import *
 from Autodesk.Revit.UI import *
 from Autodesk.Revit.UI.Selection import *
 from Autodesk.Revit.ApplicationServices import *
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../../../utils/'))
 from covenin_metric_calculation import create_metric_calc_schedule
 
 def main():
