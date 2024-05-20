@@ -48,25 +48,64 @@ def create_schedule(doc, category, schedule_fields):
     return schedule
 
 
-def main():
-    element_categorie = BuiltInCategory.OST_Walls
+def create_metric_calc_schedule(doc, element_category):
+    """
+    Create a schedule of all the elements of a given category with fields of the
+    metric calculation based on the COVENIN standards.
+
+    Args:
+        doc (Document): The Revit document in which the schedule will be created.
+        element_category (BuiltInCategory): The category of the elements to be scheduled.
+
+    Returns:
+        ViewSchedule: The created schedule with the desired fields.
+
+    Examples:
+        1. create_metric_calc_schedule(doc, "Paredes")
+           This example creates a schedule for walls with fields for the metric calculation based on the COVENIN standards.
+
+    Currently supported element categories:
+        "Paredes"
+        "Techos"
+        "Suelos"
+    """
+    covenin_metrics_of_elements = {
+        "Paredes": {
+            "revit_category": BuiltInCategory.OST_Walls,
+            "metrics": BuiltInParameter.HOST_AREA_COMPUTED,
+        },
+        "Techos": {
+            "revit_category": BuiltInCategory.OST_Ceilings,
+            "metrics": BuiltInParameter.HOST_AREA_COMPUTED,
+        },
+        "Suelos": {
+            "revit_category": BuiltInCategory.OST_Floors,
+            "metrics": BuiltInParameter.HOST_AREA_COMPUTED,
+        },
+    }
+
+    family_selected = covenin_metrics_of_elements[element_category]
+
+    element_categorie = family_selected["revit_category"]
     desired_schedule_parameters = [
         BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM,
-        BuiltInParameter.HOST_AREA_COMPUTED,
-        BuiltInParameter.HOST_VOLUME_COMPUTED,
-        BuiltInParameter.CURVE_ELEM_LENGTH,
-        BuiltInParameter.WALL_BASE_CONSTRAINT,
-        BuiltInParameter.WALL_USER_HEIGHT_PARAM,
+        family_selected["metrics"],
     ]
 
     with Transaction(doc, "Schedule") as schedule_transaction:
         schedule_transaction.Start()
-
         schedule = create_schedule(doc, element_categorie, desired_schedule_parameters)
-
         schedule_transaction.Commit()
 
-    uidoc.ActiveView = schedule
+    return schedule
+
+
+def main():
+    family_selected_identifier = "Paredes"
+
+    metric_schedule = create_metric_calc_schedule(doc, family_selected_identifier)
+
+    uidoc.ActiveView = metric_schedule
 
 
 if __name__ == "__main__":
