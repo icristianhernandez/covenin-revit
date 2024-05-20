@@ -24,11 +24,16 @@ def create_schedule(doc, category, schedule_fields):
         1. create_schedule(doc, BuiltInCategory.OST_Walls, [BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM, BuiltInParameter.WALL_BASE_CONSTRAINT])
            This example creates a schedule for walls with fields for element family and type parameter and wall base constraint parameter.
 
-        2. create_schedule(doc, BuiltInCategory.OST_Doors, [BuiltInParameter.DOOR_NUMBER, BuiltInParameter.DOOR_WIDTH])
-           This example creates a schedule for doors with fields for door number and door width parameters.
+        2.
+            with Transaction(doc, "Schedule") as schedule_transaction:
+                schedule_transaction.Start()
+                schedule = create_schedule(doc, BuiltInCategory.OST_Walls, [BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM])
+                schedule_transaction.Commit()
+            __revit__.ActiveUIDocument.ActiveView = schedule
 
     Note:
         The schedule needs to be declared within a transaction in order to be properly instantiated in the Revit document.
+        After, the schedule need to be added to the active view in order to be displayed: uidoc.ActiveView = schedule
     """
 
     all_id_of_category_elements = ElementId(category)
