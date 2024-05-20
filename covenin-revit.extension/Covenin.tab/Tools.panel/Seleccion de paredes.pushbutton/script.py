@@ -7,16 +7,17 @@ doc = __revit__.ActiveUIDocument.Document
 uidoc = __revit__.ActiveUIDocument
 app = __revit__.Application
 
-desired_schedule_parameters = [
-    BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM,
-    BuiltInParameter.HOST_AREA_COMPUTED,
-    BuiltInParameter.HOST_VOLUME_COMPUTED,
-    BuiltInParameter.CURVE_ELEM_LENGTH,
-    BuiltInParameter.WALL_BASE_CONSTRAINT,
-    BuiltInParameter.WALL_USER_HEIGHT_PARAM,
-]
-
-element_categorie = BuiltInCategory.OST_Walls
+# desired_schedule_parameters = [
+#     BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM,
+#     BuiltInParameter.HOST_AREA_COMPUTED,
+#     BuiltInParameter.HOST_VOLUME_COMPUTED,
+#     BuiltInParameter.CURVE_ELEM_LENGTH,
+#     BuiltInParameter.WALL_BASE_CONSTRAINT,
+#     BuiltInParameter.WALL_USER_HEIGHT_PARAM,
+# ]
+#
+# element_categorie = BuiltInCategory.OST_Walls
+#
 
 
 def create_schedule(doc, category, schedule_fields):
@@ -41,6 +42,7 @@ def create_schedule(doc, category, schedule_fields):
     Note:
         The schedule needs to be declared within a transaction in order to be properly created and modified.
     """
+
     all_id_of_category_elements = ElementId(category)
 
     schedule = ViewSchedule.CreateSchedule(doc, all_id_of_category_elements)
@@ -50,17 +52,44 @@ def create_schedule(doc, category, schedule_fields):
     # add desired fields to the schedule
     for schedule_parameter_posibilities in schedule_parameters_list:
         for desired_parameter in schedule_fields:
-            if schedule_parameter_posibilities.ParameterId == ElementId(desired_parameter):
+            if schedule_parameter_posibilities.ParameterId == ElementId(
+                desired_parameter
+            ):
                 schedule_def.AddField(schedule_parameter_posibilities)
 
     return schedule
 
 
-with Transaction(doc, "Schedule") as schedule_transaction:
-    schedule_transaction.Start()
+# with Transaction(doc, "Schedule") as schedule_transaction:
+#     schedule_transaction.Start()
+#
+#     schedule = create_schedule(doc, element_categorie, desired_schedule_parameters)
+#
+#     schedule_transaction.Commit()
+#
+# uidoc.ActiveView = schedule
 
-    schedule = create_schedule(doc, element_categorie, desired_schedule_parameters)
 
-    schedule_transaction.Commit()
+def main():
+    # Reimplement all code execution here
+    element_categorie = BuiltInCategory.OST_Walls
+    desired_schedule_parameters = [
+        BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM,
+        BuiltInParameter.HOST_AREA_COMPUTED,
+        BuiltInParameter.HOST_VOLUME_COMPUTED,
+        BuiltInParameter.CURVE_ELEM_LENGTH,
+        BuiltInParameter.WALL_BASE_CONSTRAINT,
+        BuiltInParameter.WALL_USER_HEIGHT_PARAM,
+    ]
 
-uidoc.ActiveView = schedule
+    with Transaction(doc, "Schedule") as schedule_transaction:
+        schedule_transaction.Start()
+
+        schedule = create_schedule(doc, element_categorie, desired_schedule_parameters)
+
+        schedule_transaction.Commit()
+
+    uidoc.ActiveView = schedule
+
+
+main()
