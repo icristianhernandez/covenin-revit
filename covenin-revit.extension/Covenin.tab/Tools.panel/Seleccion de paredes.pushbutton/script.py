@@ -3,10 +3,6 @@ from Autodesk.Revit.UI import *
 from Autodesk.Revit.UI.Selection import *
 from Autodesk.Revit.ApplicationServices import *
 
-doc = __revit__.ActiveUIDocument.Document
-uidoc = __revit__.ActiveUIDocument
-app = __revit__.Application
-
 
 def create_schedule(doc, category, schedule_fields):
     """
@@ -106,6 +102,10 @@ def create_metric_calc_schedule(doc, element_category):
 
 
 def main():
+    doc = __revit__.ActiveUIDocument.Document
+    uidoc = __revit__.ActiveUIDocument
+    app = __revit__.Application
+
     family_selected_identifier = "Paredes"
 
     metric_schedule = create_metric_calc_schedule(doc, family_selected_identifier)
