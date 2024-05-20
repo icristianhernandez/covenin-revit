@@ -2,7 +2,7 @@ from Autodesk.Revit.DB import *
 from Autodesk.Revit.UI import *
 from Autodesk.Revit.UI.Selection import *
 from Autodesk.Revit.ApplicationServices import *
-from covenin_adaptation import create_metric_calc_schedule 
+from covenin_metric_calculation import create_metric_calc_schedule 
 
 def main():
     doc = __revit__.ActiveUIDocument.Document
