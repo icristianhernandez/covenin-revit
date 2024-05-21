@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	Title="Arepitas Devs"
+	Width="238.4"
+	BorderThickness="0,0,0,0"
+	OpacityMask="#FFD6D6D6"
+	VerticalContentAlignment="Top"
+	ContextMenuService.HasDropShadow="False"
+	BorderBrush="#FFFFE900"
+	Background="#FFFFDD00"
+	Height="220">
+	<Grid
+		RenderTransformOrigin="0.4889,0.4792"
+		Background="#FFB7B3B3">
+		<Grid.ColumnDefinitions></Grid.ColumnDefinitions>
+		<Button
+			x:Name="wall_button"
+			Click="walls_push_button"
+			Content="Muros"
+			Grid.Column="0"
+			Grid.Row="0"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Top"
+			Margin="18.4,22.4,0,0"
+			Width="75.2"
+			Height="23.2" />
+		<Button
+			x:Name="floor_button"
+			Click="floors_push_button"
+			Content="Pisos"
+			Grid.Column="0"
+			Grid.Row="0"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Top"
+			Margin="18.4,71.8,0,0"
+			Width="75.2"
+			Height="23.2" />
+		<Button
+			x:Name="roof_button"
+			Click="roofs_push_button"
+			Content="Techos"
+			Grid.Column="0"
+			Grid.Row="0"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Top"
+			Margin="18.4,123.2,0,0"
+			Width="75.2"
+			Height="23.2" />
+		<Button
+			x:Name="cancel_button"
+			Click="cancel_button"
+			Content="Cancelar"
+			Grid.Column="0"
+			Grid.Row="0"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Bottom"
+			Margin="0,0,8,8"
+			Width="75.2"
+			Height="23.2" />
+	</Grid>
+</Window>
