@@ -12,6 +12,14 @@ doc = __revit__.ActiveUIDocument.Document
 uidoc = __revit__.ActiveUIDocument
 
 
+def main(x):
+    selected_family_identifier = x
+
+    metric_schedule = create_metric_calc_schedule(doc, selected_family_identifier)
+
+    uidoc.ActiveView = metric_schedule
+
+
 class modalform(WPFWindow):
     def __init__(self, xaml_file_name):
         WPFWindow.__init__(self, xaml_file_name)
@@ -20,50 +28,22 @@ class modalform(WPFWindow):
     def walls_push_button(self, sender, e):
         self.hide()
 
-        def main():
-            selected_family_identifier = "Paredes"
-
-            metric_schedule = create_metric_calc_schedule(
-                doc, selected_family_identifier
-            )
-
-            uidoc.ActiveView = metric_schedule
-
         if __name__ == "__main__":
-            main()
+            main("Paredes")
         self.Close()
 
     def floors_push_button(self, sender, e):
         self.hide()
 
-        def main():
-
-            selected_family_identifier = "Suelos"
-
-            metric_schedule = create_metric_calc_schedule(
-                doc, selected_family_identifier
-            )
-
-            uidoc.ActiveView = metric_schedule
-
         if __name__ == "__main__":
-            main()
+            main("Suelos")
         self.Close()
 
     def roofs_push_button(self, sender, e):
         self.hide()
 
-        def main():
-            selected_family_identifier = "Techos"
-
-            metric_schedule = create_metric_calc_schedule(
-                doc, selected_family_identifier
-            )
-
-            uidoc.ActiveView = metric_schedule
-
         if __name__ == "__main__":
-            main()
+            main("Techos")
         self.Close()
 
     def cancel_button(self, sender, e):
