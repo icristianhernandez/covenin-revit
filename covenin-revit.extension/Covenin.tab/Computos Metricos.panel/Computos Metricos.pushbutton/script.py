@@ -8,6 +8,9 @@ from covenin_metric_calculation import create_metric_calc_schedule
 
 xamlfile = script.get_bundle_file("interface.xaml")
 
+doc = __revit__.ActiveUIDocument.Document
+uidoc = __revit__.ActiveUIDocument
+
 
 class modalform(WPFWindow):
     def __init__(self, xaml_file_name):
@@ -18,10 +21,6 @@ class modalform(WPFWindow):
         self.hide()
 
         def main():
-            doc = __revit__.ActiveUIDocument.Document
-            uidoc = __revit__.ActiveUIDocument
-            # app = __revit__.Application
-
             selected_family_identifier = "Paredes"
 
             metric_schedule = create_metric_calc_schedule(
@@ -38,9 +37,6 @@ class modalform(WPFWindow):
         self.hide()
 
         def main():
-            doc = __revit__.ActiveUIDocument.Document
-            uidoc = __revit__.ActiveUIDocument
-            # app = __revit__.Application
 
             selected_family_identifier = "Suelos"
 
@@ -58,10 +54,6 @@ class modalform(WPFWindow):
         self.hide()
 
         def main():
-            doc = __revit__.ActiveUIDocument.Document
-            uidoc = __revit__.ActiveUIDocument
-            # app = __revit__.Application
-
             selected_family_identifier = "Techos"
 
             metric_schedule = create_metric_calc_schedule(
