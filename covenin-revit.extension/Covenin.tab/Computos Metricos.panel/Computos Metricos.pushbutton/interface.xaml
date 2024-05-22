@@ -27,7 +27,7 @@
 		<Button
 			x:Name="floor_button"
 			Click="floors_push_button"
-			Content="Pisos"
+			Content="Suelos"
 			Grid.Column="0"
 			Grid.Row="0"
 			HorizontalAlignment="Left"
