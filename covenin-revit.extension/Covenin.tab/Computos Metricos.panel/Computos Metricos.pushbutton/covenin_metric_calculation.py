@@ -93,18 +93,22 @@ def create_schedule(doc, category, schedule_show_fields):
            This example creates a schedule for walls with fields for element family and type parameter and wall base constraint parameter.
 
     Note:
-        The schedule needs to be declared within a transaction in order to be properly instantiated in the Revit document.
-        After, the schedule need to be added to the active view in order to be displayed: uidoc.ActiveView = schedule
+        If wanted modify the schedule outside the function, that modification must be done inside a transaction.
+        After, if wanna asign a tab to the schedule: uidoc.ActiveView = schedule
     """
 
-    all_id_of_category_elements = ElementId(category)
+    with Transaction(doc, "Schedule") as schedule_creation_transaction:
+        schedule_creation_transaction.Start()
 
-    schedule = ViewSchedule.CreateSchedule(doc, all_id_of_category_elements)
-    schedule_def = schedule.Definition
+        all_id_of_category_elements = ElementId(category)
+        schedule = ViewSchedule.CreateSchedule(doc, all_id_of_category_elements)
+        schedule_def = schedule.Definition
 
-    # print_string_list(debug_get_all_categories(doc))
-    # print_string_list(debug_get_schedulable_fields_names(doc, schedule_def)))
-    schedule = add_fields_to_schedule(doc, schedule, schedule_show_fields)
+        # print_string_list(debug_get_all_categories(doc))
+        # print_string_list(debug_get_schedulable_fields_names(doc, schedule_def)))
+        schedule = add_fields_to_schedule(doc, schedule, schedule_show_fields)
+
+        schedule_creation_transaction.Commit()
 
     return schedule
 
@@ -156,9 +160,6 @@ def create_metric_calc_schedule(doc, element_category):
         family_selected["metrics"],
     ]
 
-    with Transaction(doc, "Schedule") as schedule_transaction:
-        schedule_transaction.Start()
-        schedule = create_schedule(doc, element_categorie, desired_schedule_parameters)
-        schedule_transaction.Commit()
+    schedule = create_schedule(doc, element_categorie, desired_schedule_parameters)
 
     return schedule
