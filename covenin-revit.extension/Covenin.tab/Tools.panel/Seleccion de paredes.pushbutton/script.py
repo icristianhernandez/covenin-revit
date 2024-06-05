@@ -6,6 +6,8 @@ import math
 doc = __revit__.ActiveUIDocument.Document
 uidoc = __revit__.ActiveUIDocument
 
+sheets_collector = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Sheets).WhereElementIsNotElementType().ToElements()
+
 selected_walls_data = []
 volume_COVENIN_bricks = 0.00211  
 
@@ -93,6 +95,12 @@ try:
         - [bricks_layer_volume]: The volume of the bricks layer in cubic meters. If the wall has no bricks layer, this value is 0.
         - [necesary_bricks]: The number of bricks needed to build the wall. Assuming the standard volumen given by COVENIN in cubic meters and adding 10% extra bricks for precaution.
         """
+        for sheet in sheets_collector:
+            custom_param = sheet.LookupParameter('CUSTOM_PARAM')
+            if custom_param:
+                custom_param.set("Example value")
+                print(custom_param)
+
         selected_walls_data.append(
             {
                 "width": format(width, ".3f"),
