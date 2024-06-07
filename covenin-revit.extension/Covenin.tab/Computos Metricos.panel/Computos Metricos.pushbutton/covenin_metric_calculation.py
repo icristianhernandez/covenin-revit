@@ -66,7 +66,7 @@ def debug_get_all_categories(doc):
 
     return categories_names
 
-def print_string_list(string_list):
+def print_list_OfStrings(string_list):
     """
     Print a list of strings in a readable format
 
@@ -97,8 +97,8 @@ def create_schedule(doc, category, schedule_show_fields):
         After, if wanna asign a tab to the schedule: uidoc.ActiveView = schedule
     """
 
-    with Transaction(doc, "Schedule") as schedule_creation_transaction:
-        schedule_creation_transaction.Start()
+    with Transaction(doc, "Schedule") as t:
+        t.Start()
 
         all_id_of_category_elements = ElementId(category)
         schedule = ViewSchedule.CreateSchedule(doc, all_id_of_category_elements)
@@ -106,9 +106,8 @@ def create_schedule(doc, category, schedule_show_fields):
 
         schedule = add_fields_to_schedule(doc, schedule, schedule_show_fields)
 
-        schedule_creation_transaction.Commit()
+        t.Commit()
 
-    # alphabetic sort all categories and print
     return schedule
 
 
