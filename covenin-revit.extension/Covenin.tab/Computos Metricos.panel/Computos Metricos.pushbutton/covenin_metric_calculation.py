@@ -144,8 +144,15 @@ def add_schedule_sorting_field(doc, schedule, sort_settings):
     if any(key == sort_settings["field"] for key in exception_fields):
         return schedule
 
-    if "field" in sort_settings:
-        sort_group.FieldId = schedule_fields_and_ids[sort_settings["field"]]
+    # Field name cannot be blank
+    if sort_settings["field"] == "":
+        return schedule
+
+    # Field name need be defined
+    if "field" not in sort_settings:
+        return schedule
+
+    sort_group.FieldId = schedule_fields_and_ids[sort_settings["field"]]
     if "show_blank_line" in sort_settings:
         sort_group.ShowBlankLine = sort_settings["show_blank_line"]
     if "show_footer" in sort_settings:
