@@ -9,6 +9,9 @@ def add_fields_to_schedule(doc, schedule, list_of_fields_object):
     schedule_fields = schedule_def.GetSchedulableFields()
 
     for desired_field in list_of_fields_object:
+        # print(desired_field["Type"])
+        # print(desired_field["Value"].GetType())
+        # print("----")
         for possible_field in schedule_fields:
             if desired_field["Type"] == "BuiltIn":
                 if possible_field.ParameterId == ElementId(desired_field["Value"]):
@@ -288,7 +291,7 @@ def create_metric_calc_schedule(doc, element_category):
 
     element_categorie_revitID = family_selected["revit_category"]
     desired_schedule_parameters = [
-        {"Type": "BuiltIn", "Value": BuiltInParameter.ELEM_FAMILY_PARAM},
+        {"Type": "BuiltIn", "Value": BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM},
         metric_builtins[family_selected["metrics"]],
     ]
     list_of_sort_settings = [
