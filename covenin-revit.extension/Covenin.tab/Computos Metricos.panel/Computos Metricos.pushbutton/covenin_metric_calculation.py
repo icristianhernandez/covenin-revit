@@ -4,47 +4,18 @@ from Autodesk.Revit.UI.Selection import *
 from Autodesk.Revit.ApplicationServices import *
 
 
-def add_fields_to_schedule(doc, schedule, list_fields_name):
-    """
-    Add fields to a schedule
-
-    Args:
-        doc (Document): The Revit document in which the schedule will be created.
-        schedule (ViewSchedule): The schedule to which the fields will be added.
-        list_fields_name (list of strings): A list of BuiltInParameter values representing the element parameters to be included in the schedule.
-
-    Returns:
-        ViewSchedule: The schedule with the added fields.
-
-    Examples:
-        1. add_fields_to_schedule(doc, schedule, ["Family and Type", "Base Constraint"])
-              This example adds fields for element family and type parameter and wall base constraint parameter to the schedule.
-    """
+def add_fields_to_schedule(doc, schedule, list_of_fields_object):
     schedule_def = schedule.Definition
     schedule_fields = schedule_def.GetSchedulableFields()
 
-    for desired_fields in list_fields_name:
-        for schedulable_fields in schedule_fields:
-            if schedulable_fields.GetName(doc) == desired_fields:
-                schedule_def.AddField(schedulable_fields)
-
-    # Create a copy of the list_fields_name but in spanish and check
-    # if the fields exist in the schedule
-    spanish_names = {
-        "Family and Type": "Familia y Tipo",
-        "Volume": "Volumen",
-        "Count": "Cantidad",
-        "Length": "Longitud",
-    }
-    # copy only the fields that exist in list_fields_name
-    list_fields_name_spanish = [
-        spanish_names[field] for field in list_fields_name if field in spanish_names
-    ]
-
-    for desired_fields in list_fields_name_spanish:
-        for schedulable_fields in schedule_fields:
-            if schedulable_fields.GetName(doc) == desired_fields:
-                schedule_def.AddField(schedulable_fields)
+    for desired_field in list_of_fields_object:
+        for possible_field in schedule_fields:
+            if desired_field["Type"] == "BuiltIn":
+                if possible_field.ParameterId == ElementId(desired_field["Value"]):
+                    schedule_def.AddField(possible_field)
+            if desired_field["Type"] == "ScheduleFieldType":
+                if possible_field.FieldType == desired_field["Value"]:
+                    schedule_def.AddField(possible_field)
 
     return schedule
 
@@ -182,7 +153,9 @@ def add_schedule_sorting_field(doc, schedule, sort_settings):
     return schedule
 
 
-def create_schedule(doc, category, schedule_show_fields, list_of_sort_settings=None):
+def create_schedule(
+    doc, category, schedule_fields_parameter, list_of_sort_settings=None
+):
     """
     Create a schedule of all the elements of a given category with fields of the desired element parameters
 
@@ -212,7 +185,10 @@ def create_schedule(doc, category, schedule_show_fields, list_of_sort_settings=N
         schedule = ViewSchedule.CreateSchedule(doc, category_id)
         schedule_def = schedule.Definition
 
-        schedule = add_fields_to_schedule(doc, schedule, schedule_show_fields)
+        schedule_fields = add_fields_to_schedule(
+            doc, schedule, schedule_fields_parameter
+        )
+
         if list_of_sort_settings:
             for sort_setting in list_of_sort_settings:
                 schedule = add_schedule_sorting_field(doc, schedule, sort_setting)
@@ -301,13 +277,19 @@ def create_metric_calc_schedule(doc, element_category):
             "metrics": "Area",
         },
     }
+    metric_builtins = {
+        "Length": {"Type": "BuiltIn", "Value": BuiltInParameter.CURVE_ELEM_LENGTH},
+        "Area": {"Type": "BuiltIn", "Value": BuiltInParameter.HOST_AREA_COMPUTED},
+        "Volume": {"Type": "BuiltIn", "Value": BuiltInParameter.HOST_VOLUME_COMPUTED},
+        "Count": {"Type": "ScheduleFieldType", "Value": ScheduleFieldType.Count},
+    }
 
     family_selected = covenin_metrics_of_elements[element_category]
 
     element_categorie_revitID = family_selected["revit_category"]
     desired_schedule_parameters = [
-        "Family and Type",
-        family_selected["metrics"],
+        {"Type": "BuiltIn", "Value": BuiltInParameter.ELEM_FAMILY_PARAM},
+        metric_builtins[family_selected["metrics"]],
     ]
     list_of_sort_settings = [
         {
