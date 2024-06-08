@@ -5,5 +5,5 @@ doc = __revit__.ActiveUIDocument.Document
 uidoc = __revit__.ActiveUIDocument
 
 print(doc)
-print(*************************)
+print("*************************")
 print(uidoc)
