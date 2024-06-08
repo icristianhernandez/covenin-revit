@@ -126,7 +126,6 @@ def add_schedule_sorting_field(doc, schedule, sort_settings):
     schedule_def = schedule.Definition
     current_fields = get_ScheduleField_objets(doc, schedule)
     # check if the field to be sorted is an current field comparing parameterID
-    sort_settings["field"] = BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM
 
     sort_by_ScheduleFieldId = 0
     can_be_sorted_by_that_parameter = False
@@ -311,10 +310,10 @@ def create_metric_calc_schedule(doc, element_category):
             "show_footer_count": True,
             "show_header": True,
         },
-        # {
-        #     "field": family_selected["metrics"],
-        #     "sort_order": ScheduleSortOrder.Descending,
-        # },
+        {
+            "field": metric_builtins[family_selected["metrics"]]["Value"],
+            "sort_order": ScheduleSortOrder.Descending,
+        },
     ]
 
     schedule = create_schedule(
