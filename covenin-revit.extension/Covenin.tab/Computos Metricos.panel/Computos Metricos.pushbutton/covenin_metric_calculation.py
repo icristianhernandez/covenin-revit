@@ -31,7 +31,6 @@ def add_fields_to_schedule(doc, schedule, list_fields_name):
     return schedule
 
 
-
 def debug_get_schedulable_fields_names(doc, schedule_def):
     """
     Return a list with the names of the schedulable fields of a schedule
@@ -130,17 +129,20 @@ def add_schedule_sorting_field(doc, schedule, sort_settings):
             - "show_footer_title": A boolean value to show the title in the footer.
             - "show_header": A boolean value to show the header.
             - "sort_order": The order of the sorting field. It can be ScheduleSortOrder.Ascending or ScheduleSortOrder.Descending.
+        3) Fields that cannot be sorted: "Count"
     """
     schedule_def = schedule.Definition
     schedule_fields_and_ids = get_schedule_fields_with_ids(doc, schedule)
     sort_group = ScheduleSortGroupField()
+    exception_fields = ["Count"]
 
-    if not any(
-        key == sort_settings["field"]
-        for key in schedule_fields_and_ids.keys()
-    ):
+    # If the field to be sorted not exist in the schedule, don't add the sorting field
+    if not any(key == sort_settings["field"] for key in schedule_fields_and_ids.keys()):
         return schedule
 
+    # If the field it's an exception, don't add the sorting field
+    if any(key == sort_settings["field"] for key in exception_fields):
+        return schedule
 
     if "field" in sort_settings:
         sort_group.FieldId = schedule_fields_and_ids[sort_settings["field"]]
@@ -298,10 +300,10 @@ def create_metric_calc_schedule(doc, element_category):
             "show_footer_count": True,
             "show_header": True,
         },
-        # {
-        #     "field": family_selected["metrics"],
-        #     "sort_order": ScheduleSortOrder.Descending,
-        # },
+        {
+            "field": family_selected["metrics"],
+            "sort_order": ScheduleSortOrder.Descending,
+        },
     ]
 
     schedule = create_schedule(
