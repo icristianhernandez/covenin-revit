@@ -298,10 +298,10 @@ def create_metric_calc_schedule(doc, element_category):
             "show_footer_count": True,
             "show_header": True,
         },
-        {
-            "field": family_selected["metrics"],
-            "sort_order": ScheduleSortOrder.Descending,
-        },
+        # {
+        #     "field": family_selected["metrics"],
+        #     "sort_order": ScheduleSortOrder.Descending,
+        # },
     ]
 
     schedule = create_schedule(
