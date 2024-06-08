@@ -28,6 +28,24 @@ def add_fields_to_schedule(doc, schedule, list_fields_name):
             if schedulable_fields.GetName(doc) == desired_fields:
                 schedule_def.AddField(schedulable_fields)
 
+    # Create a copy of the list_fields_name but in spanish and check
+    # if the fields exist in the schedule
+    spanish_names = {
+        "Family and Type": "Familia y Tipo",
+        "Volume": "Volumen",
+        "Count": "Cantidad",
+        "Length": "Longitud",
+    }
+    # copy only the fields that exist in list_fields_name
+    list_fields_name_spanish = [
+        spanish_names[field] for field in list_fields_name if field in spanish_names
+    ]
+
+    for desired_fields in list_fields_name_spanish:
+        for schedulable_fields in schedule_fields:
+            if schedulable_fields.GetName(doc) == desired_fields:
+                schedule_def.AddField(schedulable_fields)
+
     return schedule
 
 
