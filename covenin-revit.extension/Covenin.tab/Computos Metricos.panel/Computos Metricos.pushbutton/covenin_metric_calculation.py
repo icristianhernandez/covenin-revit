@@ -31,6 +31,7 @@ def add_fields_to_schedule(doc, schedule, list_fields_name):
     return schedule
 
 
+
 def debug_get_schedulable_fields_names(doc, schedule_def):
     """
     Return a list with the names of the schedulable fields of a schedule
@@ -203,7 +204,7 @@ def create_metric_calc_schedule(doc, element_category):
         "Suelos"
         "Columnas"
         "Puertas"
-        "Bordas de Losa"
+        "Bordes de Losa"
         "Mobiliario"
         "Sistemas de Mobiliario"
         "Iluminacion"
@@ -227,7 +228,7 @@ def create_metric_calc_schedule(doc, element_category):
             "metrics": "Volume",
         },
         "Puertas": {"revit_category": BuiltInCategory.OST_Doors, "metrics": "Count"},
-        "Bordas de Losa": {
+        "Bordes de Losa": {
             "revit_category": BuiltInCategory.OST_EdgeSlab,
             "metrics": "Length",
         },
