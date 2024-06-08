@@ -125,19 +125,28 @@ def add_schedule_sorting_field(doc, schedule, sort_settings):
     """
     schedule_def = schedule.Definition
     schedule_fields_and_ids = get_schedule_fields_with_ids(doc, schedule)
+
     sort_group = ScheduleSortGroupField()
     exception_fields = ["Count"]
 
-    # If the field to be sorted not exist in the schedule, don't add the sorting field
+    # Exit when the field to be sorted does not exist in the schedule
     if not any(key == sort_settings["field"] for key in schedule_fields_and_ids.keys()):
         return schedule
 
-    # If the field it's an exception, don't add the sorting field
+    # Exit when the field to be sorted is an exception field
     if any(key == sort_settings["field"] for key in exception_fields):
         return schedule
 
-    if "field" in sort_settings:
-        sort_group.FieldId = schedule_fields_and_ids[sort_settings["field"]]
+    # Exit when no field is provided
+    if "field" not in sort_settings:
+        return schedule
+
+    # Exit when the field provided is blank
+    if sort_settings["field"] == "":
+        return schedule
+
+    sort_group.FieldId = schedule_fields_and_ids[sort_settings["field"]]
+
     if "show_blank_line" in sort_settings:
         sort_group.ShowBlankLine = sort_settings["show_blank_line"]
     if "show_footer" in sort_settings:
@@ -188,10 +197,7 @@ def create_schedule(
         schedule = ViewSchedule.CreateSchedule(doc, category_id)
         schedule_def = schedule.Definition
 
-        schedule_fields = add_fields_to_schedule(
-            doc, schedule, schedule_fields_parameter
-        )
-
+        schedule = add_fields_to_schedule(doc, schedule, schedule_fields_parameter)
         if list_of_sort_settings:
             for sort_setting in list_of_sort_settings:
                 schedule = add_schedule_sorting_field(doc, schedule, sort_setting)
@@ -242,10 +248,6 @@ def create_metric_calc_schedule(doc, element_category):
         "Paredes": {"revit_category": BuiltInCategory.OST_Walls, "metrics": "Area"},
         "Techos": {"revit_category": BuiltInCategory.OST_Ceilings, "metrics": "Area"},
         "Suelos": {"revit_category": BuiltInCategory.OST_Floors, "metrics": "Area"},
-        "Columnas": {
-            "revit_category": BuiltInCategory.OST_Columns,
-            "metrics": "Volume",
-        },
         "Puertas": {"revit_category": BuiltInCategory.OST_Doors, "metrics": "Count"},
         "Bordes de Losa": {
             "revit_category": BuiltInCategory.OST_EdgeSlab,
@@ -269,7 +271,6 @@ def create_metric_calc_schedule(doc, element_category):
         },
         "Plantas": {"revit_category": BuiltInCategory.OST_Planting, "metrics": "Count"},
         "Cubiertas": {"revit_category": BuiltInCategory.OST_Roofs, "metrics": "Area"},
-        "Escaleras": {"revit_category": BuiltInCategory.OST_Stairs, "metrics": "Area"},
         "Estructuras Temporales": {
             "revit_category": BuiltInCategory.OST_TemporaryStructure,
             "metrics": "Volume",
