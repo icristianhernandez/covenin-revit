@@ -119,10 +119,28 @@ def add_schedule_sorting_field(doc, schedule, sort_settings):
     Examples:
         1. add_schedule_sorting_field(doc, schedule, {"field": "Family and Type", "order": ScheduleSortOrder.Ascending})
               This example adds a sorting field for element family and type parameter in ascending order to the schedule.
+
+    Notes:
+        1) If the field to be sorted not exist in the schedule, don't add the sorting field.
+        2) The sort_settings dictionary can have the following keys and value:
+            - "field": The name category of the field to be sorted.
+            - "show_blank_line": A boolean value to show a blank line between the groups.
+            - "show_footer": A boolean value to show the footer.
+            - "show_footer_count": A boolean value to show the count in the footer.
+            - "show_footer_title": A boolean value to show the title in the footer.
+            - "show_header": A boolean value to show the header.
+            - "sort_order": The order of the sorting field. It can be ScheduleSortOrder.Ascending or ScheduleSortOrder.Descending.
     """
     schedule_def = schedule.Definition
     schedule_fields_and_ids = get_schedule_fields_with_ids(doc, schedule)
     sort_group = ScheduleSortGroupField()
+
+    if not any(
+        key == sort_settings["field"]
+        for key in schedule_fields_and_ids.keys()
+    ):
+        return schedule
+
 
     if "field" in sort_settings:
         sort_group.FieldId = schedule_fields_and_ids[sort_settings["field"]]
@@ -152,6 +170,7 @@ def create_schedule(doc, category, schedule_show_fields, list_of_sort_settings=N
         doc (Document): The Revit document in which the schedule will be created.
         category (BuiltInCategory): The category of the elements to be scheduled.
         schedule_fields (list of strings): List of SchedulableField names to be included in the schedule.
+        list_of_sort_settings(list of dicts): List of dictionaries with the settings of the sorting fields.
 
     Returns:
         ViewSchedule: The created schedule with the desired fields.
@@ -161,8 +180,9 @@ def create_schedule(doc, category, schedule_show_fields, list_of_sort_settings=N
            This example creates a schedule for walls with fields for element family and type parameter and wall base constraint parameter.
 
     Note:
-        If wanted modify the schedule outside the function, that modification must be done inside a transaction.
-        After, if wanna asign a tab to the schedule: uidoc.ActiveView = schedule
+        1) If wanted modify the schedule outside the function, that modification must be done inside a transaction.
+        2) After, if wanna asign a tab to the schedule: uidoc.ActiveView = schedule
+        3) For the list_of_sort_settings, see the documentation of add_schedule_sorting_field function.
     """
 
     with Transaction(doc, "Schedule") as t:
