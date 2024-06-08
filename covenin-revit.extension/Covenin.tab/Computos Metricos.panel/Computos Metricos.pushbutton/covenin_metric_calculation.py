@@ -288,7 +288,6 @@ def create_metric_calc_schedule(doc, element_category):
     desired_schedule_parameters = [
         "Family and Type",
         family_selected["metrics"],
-        "Count",
     ]
     list_of_sort_settings = [
         {
