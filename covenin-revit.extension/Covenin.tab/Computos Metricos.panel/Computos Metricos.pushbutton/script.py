@@ -19,10 +19,8 @@ class modalform(WPFWindow):
         WPFWindow.__init__(self, xaml_file_name)
         self.available_families = {
             self.bordes_losa: "Bordes de Losa",
-            self.columnas: "Columnas",
             self.cubiertas: "Cubiertas",
             self.disp_ilum: "Dispositivos de Iluminacion",
-            self.escaleras: "Escaleras",
             self.estruct_temp: "Estructuras Temporales",
             self.ilum: "Iluminacion",
             self.mobiliario: "Mobiliario",

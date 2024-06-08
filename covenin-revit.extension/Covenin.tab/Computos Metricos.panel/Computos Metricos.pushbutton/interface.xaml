@@ -5,7 +5,7 @@
 	Height="321.6"
 	Width="418.4">
 	<Grid
-		Background="#FF646464">
+		Background="#FF5E819E">
 		<ScrollViewer
 			Grid.Column="0"
 			Grid.Row="0"
@@ -15,9 +15,9 @@
 			Width="403.2"
 			Height="183.2">
 			<ListBox
-				Background="#FFD6D6D6"
 				Foreground="#FF301414"
-				BorderBrush="#FF354E91">
+				BorderBrush="#FF354E91"
+				Background="#FF95ADBF">
 				<CheckBox
 					Width="173.6"
 					Height="16.8"
@@ -33,11 +33,6 @@
 				<CheckBox
 					Width="173.6"
 					Height="16.8"
-					x:Name="columnas"
-					Content="Columnas" />
-				<CheckBox
-					Width="173.6"
-					Height="16.8"
 					x:Name="cubiertas"
 					Content="Cubiertas" />
 				<CheckBox
@@ -45,11 +40,6 @@
 					Height="16.8"
 					x:Name="disp_ilum"
 					Content="Dispositivos de Iluminacion" />
-				<CheckBox
-					Width="173.6"
-					Height="16.8"
-					x:Name="escaleras"
-					Content="Escaleras" />
 				<CheckBox
 					Width="173.6"
 					Height="16.8"
