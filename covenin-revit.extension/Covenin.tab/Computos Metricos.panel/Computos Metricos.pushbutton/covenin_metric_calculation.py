@@ -3,6 +3,7 @@ from Autodesk.Revit.UI import *
 from Autodesk.Revit.UI.Selection import *
 from Autodesk.Revit.ApplicationServices import *
 
+
 def add_fields_to_schedule(doc, schedule, list_fields_name):
     """
     Add fields to a schedule
@@ -29,6 +30,7 @@ def add_fields_to_schedule(doc, schedule, list_fields_name):
 
     return schedule
 
+
 def debug_get_schedulable_fields_names(doc, schedule_def):
     """
     Return a list with the names of the schedulable fields of a schedule
@@ -48,6 +50,7 @@ def debug_get_schedulable_fields_names(doc, schedule_def):
 
     return schedule_fields_names
 
+
 def debug_get_all_categories(doc):
     """
     Return a list with the names of all the categories in the Revit document
@@ -66,6 +69,7 @@ def debug_get_all_categories(doc):
 
     return categories_names
 
+
 def print_list_OfStrings(string_list):
     """
     Print a list of strings in a readable format
@@ -75,6 +79,7 @@ def print_list_OfStrings(string_list):
     """
     for string in string_list:
         print(string)
+
 
 def create_schedule(doc, category, schedule_show_fields):
     """
@@ -89,7 +94,7 @@ def create_schedule(doc, category, schedule_show_fields):
         ViewSchedule: The created schedule with the desired fields.
 
     Examples:
-        1. create_schedule(doc, BuiltInCategory.OST_Walls, ["Family and Type", "Base Constraint"])  
+        1. create_schedule(doc, BuiltInCategory.OST_Walls, ["Family and Type", "Base Constraint"])
            This example creates a schedule for walls with fields for element family and type parameter and wall base constraint parameter.
 
     Note:
@@ -133,7 +138,7 @@ def create_metric_calc_schedule(doc, element_category):
         "Suelos"
         "Columnas"
         "Puertas"
-        "Bordas de Losa"
+        "Bordes de Losa"
         "Mobiliario"
         "Sistemas de Mobiliario"
         "Iluminacion"
@@ -145,73 +150,49 @@ def create_metric_calc_schedule(doc, element_category):
         "Ventanas"
         "Muros Cortina"
 
-    Notes: 
+    Notes:
         Needed be assigned to the active view in order to be displayed as tab: uidoc.ActiveView = schedule
     """
     covenin_metrics_of_elements = {
-        "Paredes": {
-            "revit_category": BuiltInCategory.OST_Walls,
-            "metrics": "Area"
-        },
-        "Techos": {
-            "revit_category": BuiltInCategory.OST_Ceilings,
-            "metrics": "Area"
-        },
-        "Suelos": {
-            "revit_category": BuiltInCategory.OST_Floors,
-            "metrics": "Area"
-        },
+        "Paredes": {"revit_category": BuiltInCategory.OST_Walls, "metrics": "Area"},
+        "Techos": {"revit_category": BuiltInCategory.OST_Ceilings, "metrics": "Area"},
+        "Suelos": {"revit_category": BuiltInCategory.OST_Floors, "metrics": "Area"},
         "Columnas": {
             "revit_category": BuiltInCategory.OST_Columns,
-            "metrics": "Volume"
+            "metrics": "Volume",
         },
-        "Puertas": {
-            "revit_category": BuiltInCategory.OST_Doors,
-            "metrics": "Count"
-        },
-        "Bordas de Losa": {
+        "Puertas": {"revit_category": BuiltInCategory.OST_Doors, "metrics": "Count"},
+        "Bordes de Losa": {
             "revit_category": BuiltInCategory.OST_EdgeSlab,
-            "metrics": "Length"
+            "metrics": "Length",
         },
         "Mobiliario": {
             "revit_category": BuiltInCategory.OST_Furniture,
-            "metrics": "Count"
+            "metrics": "Count",
         },
         "Sistemas de Mobiliario": {
             "revit_category": BuiltInCategory.OST_FurnitureSystems,
-            "metrics": "Count"
+            "metrics": "Count",
         },
         "Iluminacion": {
             "revit_category": BuiltInCategory.OST_LightingFixtures,
-            "metrics": "Count"
+            "metrics": "Count",
         },
         "Dispositivos de Iluminacion": {
             "revit_category": BuiltInCategory.OST_LightingDevices,
-            "metrics": "Count"
+            "metrics": "Count",
         },
-        "Plantas": {
-            "revit_category": BuiltInCategory.OST_Planting,
-            "metrics": "Count"
-        },
-        "Cubiertas": {
-            "revit_category": BuiltInCategory.OST_Roofs,
-            "metrics": "Area"
-        },
-        "Escaleras": {
-            "revit_category": BuiltInCategory.OST_Stairs,
-            "metrics": "Area"
-        },
+        "Plantas": {"revit_category": BuiltInCategory.OST_Planting, "metrics": "Count"},
+        "Cubiertas": {"revit_category": BuiltInCategory.OST_Roofs, "metrics": "Area"},
+        "Escaleras": {"revit_category": BuiltInCategory.OST_Stairs, "metrics": "Area"},
         "Estructuras Temporales": {
             "revit_category": BuiltInCategory.OST_TemporaryStructure,
-            "metrics": "Volume"
+            "metrics": "Volume",
         },
-        "Ventanas": {
-            "revit_category": BuiltInCategory.OST_Windows,
-            "metrics": "Count"
-        },
+        "Ventanas": {"revit_category": BuiltInCategory.OST_Windows, "metrics": "Count"},
         "Muros Cortina": {
             "revit_category": BuiltInCategory.OST_CurtainWallPanels,
-            "metrics": "Area"
+            "metrics": "Area",
         },
     }
 
@@ -223,6 +204,8 @@ def create_metric_calc_schedule(doc, element_category):
         family_selected["metrics"],
     ]
 
-    schedule = create_schedule(doc, element_categorie_revitID, desired_schedule_parameters)
+    schedule = create_schedule(
+        doc, element_categorie_revitID, desired_schedule_parameters
+    )
 
     return schedule

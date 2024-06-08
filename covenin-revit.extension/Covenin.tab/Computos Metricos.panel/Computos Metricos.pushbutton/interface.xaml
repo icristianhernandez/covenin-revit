@@ -1,61 +1,156 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	Title="Arepitas Devs"
-	Width="238.4"
-	BorderThickness="0,0,0,0"
-	OpacityMask="#FFD6D6D6"
-	VerticalContentAlignment="Top"
-	ContextMenuService.HasDropShadow="False"
-	BorderBrush="#FFFFE900"
-	Background="#FFFFDD00"
-	Height="220">
+	Title="Cómputos Métricos"
+	ContextMenuService.ShowOnDisabled="False"
+	Height="321.6"
+	Width="418.4">
 	<Grid
-		RenderTransformOrigin="0.4889,0.4792"
-		Background="#FFB7B3B3">
-		<Grid.ColumnDefinitions></Grid.ColumnDefinitions>
-		<Button
-			x:Name="wall_button"
-			Click="walls_push_button"
-			Content="Muros"
+		Background="#FF646464">
+		<ScrollViewer
 			Grid.Column="0"
 			Grid.Row="0"
 			HorizontalAlignment="Left"
-			VerticalAlignment="Top"
-			Margin="18.4,22.4,0,0"
-			Width="75.2"
-			Height="23.2" />
+			VerticalAlignment="Bottom"
+			Margin="1.60000000000005,0,0,64.0000000000001"
+			Width="403.2"
+			Height="183.2">
+			<ListBox
+				Background="#FFD6D6D6"
+				Foreground="#FF301414"
+				BorderBrush="#FF354E91">
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="SeleccionarTodo"
+					Content="Seleccionar Todo"
+					Checked="select_all_options"
+					Unchecked="uncheck_all_options" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="bordes_losa"
+					Content="Bordes de Losa" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="columnas"
+					Content="Columnas" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="cubiertas"
+					Content="Cubiertas" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="disp_ilum"
+					Content="Dispositivos de Iluminacion" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="escaleras"
+					Content="Escaleras" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="estruct_temp"
+					Content="Estructuras Temporales" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="ilum"
+					Content="Iluminacion" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="mobiliario"
+					Content="Mobiliario" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="muro_cortina"
+					Content="Muros Cortina" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="planta"
+					Content="Plantas" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="pared"
+					Content="Paredes" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="puerta"
+					Content="Puertas" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="sistem_mob"
+					Content="Sistemas de Mobiliario" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="suelo"
+					Content="Suelos" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="techo"
+					Content="Techos" />
+				<CheckBox
+					Width="173.6"
+					Height="16.8"
+					x:Name="ventana"
+					Content="Ventanas" />
+			</ListBox>
+		</ScrollViewer>
 		<Button
-			x:Name="floor_button"
-			Click="floors_push_button"
-			Content="Suelos"
-			Grid.Column="0"
-			Grid.Row="0"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Top"
-			Margin="18.4,71.8,0,0"
-			Width="75.2"
-			Height="23.2" />
-		<Button
-			x:Name="roof_button"
-			Click="roofs_push_button"
-			Content="Techos"
-			Grid.Column="0"
-			Grid.Row="0"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Top"
-			Margin="18.4,123.2,0,0"
-			Width="75.2"
-			Height="23.2" />
-		<Button
-			x:Name="cancel_button"
-			Click="cancel_button"
+			x:Name="Cancelar"
 			Content="Cancelar"
+			Click="cancel_button"
 			Grid.Column="0"
 			Grid.Row="0"
 			HorizontalAlignment="Right"
 			VerticalAlignment="Bottom"
-			Margin="0,0,8,8"
+			Margin="0,0,8,20.6"
 			Width="75.2"
 			Height="23.2" />
+		<Button
+			x:Name="Aceptar"
+			Content="Aceptar"
+			Click="accept_button"
+			Grid.Column="0"
+			Grid.Row="0"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Bottom"
+			Margin="225.6,0,0,20.6"
+			Width="75.2"
+			Height="23.2" />
+		<Button
+			x:Name="Multi"
+			Content="Schedule Multicategoría"
+			Grid.Column="0"
+			Grid.Row="0"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Bottom"
+			Margin="15.2,0,0,20.8"
+			Width="141.6"
+			Height="23.199999999999967" />
+		<Label
+			x:Name="Subtitulo"
+			Content="Seleccione las Familias requeridas a continuación:"
+			Grid.Column="0"
+			Grid.Row="0"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Top"
+			Margin="0,16.8,0,0"
+			Width="283.2"
+			Height="31.2"
+			Background="#00FFFFFF"
+			Foreground="#FFFFFFE1" />
+		<Grid.ColumnDefinitions></Grid.ColumnDefinitions>
 	</Grid>
 </Window>
