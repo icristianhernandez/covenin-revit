@@ -73,26 +73,26 @@ def print_list_OfStrings(string_list):
         print(string)
 
 
-def get_schedule_fields_with_ids(doc, schedule):
+def get_ScheduleField_objets(doc, schedule):
     """
-    Return a dictionary with the fields name as key and fields id as value of a
-    schedule
+    Return a list with the current fields of a schedule in the same order they
+    have in the schedule.
 
     Args:
         doc (Document): The Revit document in which the schedule will be created.
-        schedule (ViewSchedule): The schedule whose fields will be returned.
+        schedule (ViewSchedule): The schedule to which the fields will be added.
 
     Returns:
-        fields_with_ids (dict): A dictionary with the fields name as key and fields id as value of the schedule.
+        schedule_fields (list of SchedulableField): A list of the current fields of the schedule.
     """
     schedule_def = schedule.Definition
-    fields_with_ids = {}
+    schedule_fields_id = schedule_def.GetFieldOrder()
+    schedule_fields = []
 
-    for i in range(schedule_def.GetFieldCount()):
-        field = schedule_def.GetField(i)
-        fields_with_ids[field.GetName()] = field.FieldId
+    for fieldId in schedule_fields_id:
+        schedule_fields.append(schedule_def.GetField(fieldId))
 
-    return fields_with_ids
+    return schedule_fields
 
 
 def add_schedule_sorting_field(doc, schedule, sort_settings):
@@ -102,19 +102,19 @@ def add_schedule_sorting_field(doc, schedule, sort_settings):
     Args:
         doc (Document): The Revit document in which the schedule will be created.
         schedule (ViewSchedule): The schedule to which the sorting field will be added.
-        sort_settings (dict): A dictionary with the settings of the sorting field.
+        sort_settings (dict of ScheduleSortGroupField settings): A dictionary with the settings of the sorting field.
 
     Returns:
         ViewSchedule: The schedule with the added sorting field.
 
     Examples:
-        1. add_schedule_sorting_field(doc, schedule, {"field": "Family and Type", "order": ScheduleSortOrder.Ascending})
+        1. add_schedule_sorting_field(doc, schedule, {"field": BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM, "order": ScheduleSortOrder.Ascending})
               This example adds a sorting field for element family and type parameter in ascending order to the schedule.
 
     Notes:
         1) If the field to be sorted not exist in the schedule, don't add the sorting field.
         2) The sort_settings dictionary can have the following keys and value:
-            - "field": The name category of the field to be sorted.
+            - "field": The class of the field to be sorted.
             - "show_blank_line": A boolean value to show a blank line between the groups.
             - "show_footer": A boolean value to show the footer.
             - "show_footer_count": A boolean value to show the count in the footer.
@@ -124,17 +124,26 @@ def add_schedule_sorting_field(doc, schedule, sort_settings):
         3) Fields that cannot be sorted: "Count"
     """
     schedule_def = schedule.Definition
-    schedule_fields_and_ids = get_schedule_fields_with_ids(doc, schedule)
+    current_fields = get_ScheduleField_objets(doc, schedule)
+    # check if the field to be sorted is an current field comparing parameterID
+    sort_settings["field"] = BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM
 
+    sort_by_ScheduleFieldId = 0
+    can_be_sorted_by_that_parameter = False
     sort_group = ScheduleSortGroupField()
-    exception_fields = ["Count"]
-
-    # Exit when the field to be sorted does not exist in the schedule
-    if not any(key == sort_settings["field"] for key in schedule_fields_and_ids.keys()):
-        return schedule
+    exception_fields = [ScheduleFieldType.Count]
 
     # Exit when the field to be sorted is an exception field
-    if any(key == sort_settings["field"] for key in exception_fields):
+    if sort_settings["field"] in exception_fields:
+        return schedule
+
+    # Exit when the field to be sorted does not exist in the schedule
+    for field in current_fields:
+        if field.ParameterId == ElementId(sort_settings["field"]):
+            sort_by_ScheduleFieldId = field.FieldId
+            can_be_sorted_by_that_parameter = True
+            break
+    if not can_be_sorted_by_that_parameter:
         return schedule
 
     # Exit when no field is provided
@@ -145,8 +154,7 @@ def add_schedule_sorting_field(doc, schedule, sort_settings):
     if sort_settings["field"] == "":
         return schedule
 
-    sort_group.FieldId = schedule_fields_and_ids[sort_settings["field"]]
-
+    sort_group.FieldId = sort_by_ScheduleFieldId
     if "show_blank_line" in sort_settings:
         sort_group.ShowBlankLine = sort_settings["show_blank_line"]
     if "show_footer" in sort_settings:
@@ -189,7 +197,6 @@ def create_schedule(
         2) After, if wanna asign a tab to the schedule: uidoc.ActiveView = schedule
         3) For the list_of_sort_settings, see the documentation of add_schedule_sorting_field function.
     """
-
     with Transaction(doc, "Schedule") as t:
         t.Start()
 
@@ -297,17 +304,17 @@ def create_metric_calc_schedule(doc, element_category):
     ]
     list_of_sort_settings = [
         {
-            "field": "Family and Type",
+            "field": BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM,
             "show_blank_line": True,
             "sort_order": ScheduleSortOrder.Ascending,
             "show_footer": True,
             "show_footer_count": True,
             "show_header": True,
         },
-        {
-            "field": family_selected["metrics"],
-            "sort_order": ScheduleSortOrder.Descending,
-        },
+        # {
+        #     "field": family_selected["metrics"],
+        #     "sort_order": ScheduleSortOrder.Descending,
+        # },
     ]
 
     schedule = create_schedule(
