@@ -5,8 +5,8 @@ import pprint
 doc = __revit__.ActiveUIDocument.Document
 uidoc = __revit__.ActiveUIDocument
 
-pprint.pp(__revit__)
+pprint.pprint(__revit__)
 print("********************")
-pprint.pp(doc)
+pprint.pprint(doc)
 print("********************")
-pprint.pp(uidoc)
+pprint.pprint(uidoc)
