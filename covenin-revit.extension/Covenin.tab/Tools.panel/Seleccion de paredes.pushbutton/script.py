@@ -7,7 +7,7 @@ uidoc = __revit__.ActiveUIDocument
 fec = FilteredElementCollector(doc)
 
 
-all_walls = fec.OfClass(Wall).ToElements()
+all_walls = fec.OfClass(Wall).WhereElementIsElementType().ToElements()
 print(all_walls)
 print('----------------------------')
-print(fec.OfClass(Wall)) 
+print(fec.OfClass(Wall))
