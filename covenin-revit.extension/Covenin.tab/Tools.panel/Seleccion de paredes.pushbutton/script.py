@@ -1,12 +1,12 @@
 from Autodesk.Revit.DB import *
 from Autodesk.Revit.UI.Selection import *
-from ppretty import ppretty
+import pprint
 
 doc = __revit__.ActiveUIDocument.Document
 uidoc = __revit__.ActiveUIDocument
 
-print(ppretty(__revit__))
+pprint.pp(__revit__)
 print("********************")
-print(ppretty(doc))
+pprint.pp(doc)
 print("********************")
-print(ppretty(uidoc))
+pprint.pp(uidoc)
