@@ -5,9 +5,12 @@ doc = __revit__.ActiveUIDocument.Document
 uidoc = __revit__.ActiveUIDocument
 fec = FilteredElementCollector(doc)
 
+t = Transaction(doc, 'Create family instance.')
 
-all_walls_types = fec.OfClass(Wall).WhereElementIsElementType().ToElements()
-all_walls = fec.OfClass(Wall).WhereElementIsNotElementType().ToElements()
-print(all_walls)
+t.Start()
+
+all_families = fec.OfClass(FamilySymbol).ToElements()
 print('----------------------------')
-print(all_walls_types)
+print(all_families)
+ 
+t.Commit()
