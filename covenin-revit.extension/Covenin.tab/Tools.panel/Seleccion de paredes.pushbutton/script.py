@@ -9,5 +9,5 @@ all_families = fec.OfClass(FamilySymbol).ToElements()
 print('----------------------------')
 
 for item in all_families:
-    print(item.Name)
+    print(item.Family.Name)
 
