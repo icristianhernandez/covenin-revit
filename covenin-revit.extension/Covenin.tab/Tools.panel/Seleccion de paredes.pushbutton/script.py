@@ -11,6 +11,7 @@ t.Start()
 
 all_families = fec.OfClass(FamilySymbol).ToElements()
 print('----------------------------')
-print(all_families)
- 
+
+for item in all_families:
+    print(item.Name)
 t.Commit()
