@@ -1,5 +1,29 @@
 """
 From a .py file, get the line number of the file where the elements of a list are defined.
+The files need to be named as: covenin_data_scrapped.py
+The list needs to be named as: covenin_elements_data
+covenin_elements_data need to be a list of dictionaries
+
+Each dictionary needs to have the following keys: 
+    - nombre
+    - codigo_covenin
+    - unidad_de_medida
+    - categoria_revit
+
+The names can't repeat.
+
+The covenin codes can't repeat.
+
+The values of the key "unidad_de_medida" need to be one of the following:
+    - m
+    - m2
+    - m3
+    - cantidad
+
+The values of the key "categoria_revit" need to be one of the following:
+    (left for now)
+    - test
+    - example
 """
 
 import ast
