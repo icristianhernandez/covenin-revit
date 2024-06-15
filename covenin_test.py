@@ -65,17 +65,18 @@ def is_last_character(string_to_check, character):
     return string_to_check[-1] == character
 
 
-def remove_last_character(string_to_remove):
+def remove_last_characters(string_to_affect, characters_to_remove=1):
     """
-    Remove the last character of a string.
+    Remove the last characters of a string.
 
     Args:
-        string_to_remove (str): The string to remove the last character.
+        string_to_affect (str): The string to affect.
+        characters_to_remove (int): The number of characters to remove.
 
     Returns:
-        The string without the last character (str).
+        The string without the last characters (str).
     """
-    return string_to_remove[:-1]
+    return string_to_affect[:-characters_to_remove]
 
 
 if __name__ == "__main__":
@@ -126,22 +127,6 @@ if __name__ == "__main__":
         else:
             left_keys_lines += f"{covenin_elements_lines[index]}, "
 
-    # Clean the last comma of the strings
-    # if is_last_character(left_keys_lines, ","):
-    #     left_keys_lines = remove_last_character(left_keys_lines)
-    #
-    # if is_last_character(wrong_category_lines, ","):
-    #     wrong_category_lines = remove_last_character(wrong_category_lines)
-    #
-    # if is_last_character(wrong_calc_metric_lines, ","):
-    #     wrong_calc_metric_lines = remove_last_character(wrong_calc_metric_lines)
-    #
-    # if is_last_character(repeated_code_lines, ","):
-    #     repeated_code_lines = remove_last_character(repeated_code_lines)
-    #
-    # if is_last_character(repeated_name_lines, ","):
-    #     repeated_name_lines = remove_last_character(repeated_name_lines)
-
     # Check if there are errors and create the error message
     if (
         left_keys_lines
@@ -153,14 +138,17 @@ if __name__ == "__main__":
         error_msg += "\n"
 
         if not left_keys_lines == "":
+            left_keys_lines = remove_last_characters(left_keys_lines, 2)
             error_msg += left_keys_msg + "\n" + padding_msg + left_keys_lines + "\n\n"
 
         if not wrong_category_lines == "":
+            wrong_category_lines = remove_last_characters(wrong_category_lines, 2)
             error_msg += (
                 wrong_category_msg + "\n" + padding_msg + wrong_category_lines + "\n\n"
             )
 
         if not wrong_calc_metric_lines == "":
+            wrong_calc_metric_lines = remove_last_characters(wrong_calc_metric_lines, 2)
             error_msg += (
                 wrong_calc_metric_msg
                 + "\n"
@@ -170,11 +158,13 @@ if __name__ == "__main__":
             )
 
         if not repeated_code_lines == "":
+            repeated_code_lines = remove_last_characters(repeated_code_lines, 2)
             error_msg += (
                 repeated_code_msg + "\n" + padding_msg + repeated_code_lines + "\n\n"
             )
 
         if not repeated_name_lines == "":
+            repeated_name_lines = remove_last_characters(repeated_name_lines, 2)
             error_msg += (
                 repeated_name_msg + "\n" + padding_msg + repeated_name_lines + "\n\n"
             )
