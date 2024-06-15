@@ -79,17 +79,20 @@ def remove_last_characters(string_to_affect, characters_to_remove=1):
     return string_to_affect[:-characters_to_remove]
 
 
-if __name__ == "__main__":
+def main():
+    # Ge a list of the line numbers of the elements of the target list
     file_path = os.path.join(os.path.dirname(__file__), "covenin_data_scrapped.py")
     list_name = "covenin_elements_data"
     covenin_elements_lines = get_line_number_of_list_elements(file_path, list_name)
 
+    # Checks data for the elements of the list
     essential_keys = ["nombre", "codigo_covenin", "unidad_de_medida", "categoria_revit"]
     allowed_categories = ["test", "example"]
-    allowed_calc_metrics = ["m", "m2", "m3", "cantidad"]
+    allowed_calc_metrics = ["m", "m2", "m3", "cantidad", "kgf"]
     codes_storage = []
     names_storage = []
 
+    # Initial error messages
     error_msg = (
         "Los elementos que comienzan en las siguientes lineas contienen errores: "
     )
@@ -100,12 +103,14 @@ if __name__ == "__main__":
     repeated_name_msg = "Nombre repetido: "
     padding_msg = "    "
 
+    # Initial error messages of the lines
     left_keys_lines = ""
     wrong_category_lines = ""
     wrong_calc_metric_lines = ""
     repeated_code_lines = ""
     repeated_name_lines = ""
 
+    # Check the elements of the list
     for index, element in enumerate(covenin_elements_data):
         if all(key in element for key in essential_keys):
             if not element["codigo_covenin"] in codes_storage:
@@ -172,3 +177,7 @@ if __name__ == "__main__":
         print(error_msg)
     else:
         print("No hay errores en los elementos de la lista.")
+
+
+if __name__ == "__main__":
+    main()
