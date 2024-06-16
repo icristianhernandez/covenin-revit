@@ -22,6 +22,8 @@ The values of the key "unidad_de_medida" need to be one of the following:
     - m3
     - cantidad
     - kgf
+    - h
+    - HPxh
 
 The values of the key "categoria_revit" need to be one of the following:
     allowed_categories = [
@@ -111,7 +113,7 @@ def main():
         "rejillas",
         "escaleras",
     ]
-    allowed_calc_metrics = ["m", "m2", "m3", "cantidad", "kgf"]
+    allowed_calc_metrics = ["m", "m2", "m3", "cantidad", "kgf", "h", "HPxh"]
     codes_storage = []
     names_storage = []
 
