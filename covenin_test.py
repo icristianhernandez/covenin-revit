@@ -19,6 +19,7 @@ The values of the key "unidad_de_medida" need to be one of the following:
     - m2
     - m3
     - cantidad
+    - kgf
 
 The values of the key "categoria_revit" need to be one of the following:
     allowed_categories = [
