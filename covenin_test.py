@@ -21,9 +21,18 @@ The values of the key "unidad_de_medida" need to be one of the following:
     - cantidad
 
 The values of the key "categoria_revit" need to be one of the following:
-    (left for now)
-    - test
-    - example
+    allowed_categories = [
+        "test",
+        "muros",
+        "columnas",
+        "losas",
+        "sistema de tuberias",
+        "puertas",
+        "ventana",
+        "barandillas",
+        "rejillas",
+        "escaleras",
+    ]
 """
 
 import ast
@@ -87,7 +96,18 @@ def main():
 
     # Checks data for the elements of the list
     essential_keys = ["nombre", "codigo_covenin", "unidad_de_medida", "categoria_revit"]
-    allowed_categories = ["test", "example"]
+    allowed_categories = [
+        "test",
+        "muros",
+        "columnas",
+        "losas",
+        "sistema de tuberias",
+        "puertas",
+        "ventana",
+        "barandillas",
+        "rejillas",
+        "escaleras",
+    ]
     allowed_calc_metrics = ["m", "m2", "m3", "cantidad", "kgf"]
     codes_storage = []
     names_storage = []
