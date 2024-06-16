@@ -27,7 +27,7 @@ The values of the key "categoria_revit" need to be one of the following:
     allowed_categories = [
         "test",
         "muros",
-        "columnas",
+        "pilares",
         "losas",
         "sistema de tuberias",
         "puertas",
@@ -102,7 +102,7 @@ def main():
     allowed_categories = [
         "test",
         "muros",
-        "columnas",
+        "pilares",
         "losas",
         "sistema de tuberias",
         "puertas",
