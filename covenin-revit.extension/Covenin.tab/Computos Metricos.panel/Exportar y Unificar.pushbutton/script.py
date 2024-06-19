@@ -2,17 +2,30 @@ from Autodesk.Revit.DB import *
 from Autodesk.Revit.UI import *
 from pyrevit.forms import WPFWindow
 from pyrevit import script
-from covenin_metric_calculation import create_metric_calc_schedule
+from export_schedules import export_selected_schedules
+from covenin_schedules_creation import create_metric_calc_schedule
 
-xamlfile = script.get_bundle_file("interface.xaml")
+xamlfile = script.get_bundle_file("export_interface.xaml")
 
 DOC = __revit__.ActiveUIDocument.Document
 UIDOC = __revit__.ActiveUIDocument
 
 
-def create_and_show_covenin_calc_schedules(selected_family_identifier):
-    for family_identifier in selected_family_identifier:
-        UIDOC.ActiveView = create_metric_calc_schedule(DOC, family_identifier)
+def delete_schedule_sheet_instance(DOC, schedules_to_delete):
+    with Transaction(DOC, "Delete Schedules") as t:
+        t.Start()
+        DOC.Delete(schedules_to_delete.Id)
+        t.Commit()
+
+
+def create_and_export_covenin_calc_schedules(selected_family_identifier):
+    selected_schedules = []
+    for categories in selected_family_identifier:
+        selected_schedules.append(create_metric_calc_schedule(DOC, categories))
+
+    export_selected_schedules(selected_schedules)
+    for schedules_to_delete in selected_schedules:
+        delete_schedule_sheet_instance(DOC, schedules_to_delete)
 
 
 class modalform(WPFWindow):
@@ -34,7 +47,7 @@ class modalform(WPFWindow):
             self.techo: "Techos",
             self.ventana: "Ventanas",
         }
-        self.selected_categories = []
+        self.categories = []
         self.ShowDialog()
 
     def select_all_options(self, sender, e):
@@ -48,11 +61,12 @@ class modalform(WPFWindow):
 
     def accept_button(self, sender, e):
         self.hide()
+
         for selected_options, identifier in self.available_families.items():
             if selected_options.IsChecked:
-                self.selected_categories.append(identifier)
+                self.categories.append(identifier)
 
-        create_and_show_covenin_calc_schedules(self.selected_categories)
+        create_and_export_covenin_calc_schedules(self.categories)
         self.Close()
 
     def cancel_button(self, sender, e):
@@ -60,4 +74,4 @@ class modalform(WPFWindow):
 
 
 if __name__ == "__main__":
-    form = modalform("interface.xaml")
+    form = modalform("export_interface.xaml")
