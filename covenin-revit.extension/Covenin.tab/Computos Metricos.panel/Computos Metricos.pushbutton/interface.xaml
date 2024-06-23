@@ -39,11 +39,11 @@
 				Content="Cubiertas"
 				Margin="5,0,0,0" />
 			<CheckBox
-				Width="173.6"
 				Height="16.8"
 				x:Name="disp_ilum"
 				Content="Dispositivos de Iluminacion"
-				Margin="5,0,0,0" />
+				Margin="5,0,0,0"
+				Width="180.8" />
 			<CheckBox
 				Width="173.6"
 				Height="16.8"
