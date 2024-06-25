@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from pyrevit import DB, forms
 import xlsxwriter
 
@@ -55,5 +56,8 @@ def export_selected_schedules(selected_schedules):
             row += 1
 
         workbook.close()
+
+        os.startfile(path)
+
     except:
         SystemExit
