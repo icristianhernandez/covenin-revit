@@ -129,14 +129,20 @@ def create_schedule(
         if list_of_sort_settings:
             for sort_setting in list_of_sort_settings:
                 schedule = add_schedule_sorting_field(doc, schedule, sort_setting)
+
+        # set grand total
         schedule_def.ShowGrandTotal = True
         schedule_def.ShowGrandTotalCount = True
         schedule_def.ShowGrandTotalTitle = True
         schedule_def.GrandTotalTitle = "Total: "
 
-        # get schedule fields and set total to the last field
-        # schedule_fields = get_ScheduleField_objets(doc, schedule)
-        # schedule_fields[-1].CanTotal = True
+        # set totals for all fields
+        schedule_fields = get_ScheduleField_objets(doc, schedule)
+        for field in schedule_fields:
+            if field.CanTotal():
+                field.DisplayType = ScheduleFieldDisplayType.Totals
+
+
 
         t.Commit()
 
